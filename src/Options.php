@@ -46,7 +46,7 @@ class Options
     public function getAddr(): ?UriInterface
     {
         if (empty($this->addr)) {
-
+            return new Uri('0.0.0.0:8081');
         }
 
         return $this->addr;
