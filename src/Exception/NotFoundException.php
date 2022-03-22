@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace SwooleGin\Exception;
 
 
+use SwooleGin\Utils\HTTPStatus;
 
 class NotFoundException extends Exception
 {
-    public function __construct(string $message = 'Not Found')
+    public function __construct(string $message = '')
     {
-        parent::__construct($message, 404);
+        $message = empty($message) ? HTTPStatus::statusText(HTTPStatus::StatusOK) : $message;
+        parent::__construct($message, HTTPStatus::StatusOK);
     }
 }

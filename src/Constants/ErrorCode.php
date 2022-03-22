@@ -7,6 +7,9 @@ namespace SwooleGin\Constants;
 
 class ErrorCode
 {
+    // unknown error code
+    const UNKNOWN = -1;
+
     // system error code > 10000 and <= 11000
     const FILE_NOT_EXISTS = 10001;
 

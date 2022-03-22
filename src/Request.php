@@ -15,13 +15,6 @@ class Request implements RequestInterface
 {
     use HeaderTrait;
 
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
-    const METHOD_CONNECT = 'CONNECT';
-    const METHOD_OPTION = 'OPTION';
-
     const EOL = '\n';
 
     private StreamInterface $stream;

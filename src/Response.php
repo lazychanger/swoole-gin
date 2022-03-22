@@ -19,6 +19,14 @@ class Response implements ResponseInterface
 
     protected StreamInterface $stream;
 
+    public static array $statusReasonPhrase = [
+        0 => 'Server Error',
+        200 => 'OK',
+        403 => 'Authorized Failed',
+        404 => 'Not Found',
+        500 => 'Server Error',
+    ];
+
     public function getProtocolVersion(): string
     {
         return $this->version;

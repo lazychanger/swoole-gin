@@ -7,42 +7,28 @@ namespace SwooleGin;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use SwooleGin\Exception\NotFoundException;
-use SwooleGin\Middleware\MiddlewareInterface;
 
 class ServerMux implements HandlerInterface
 {
     /**
-     * @var HandleFuncInterface|null
+     * @var HandlerFuncInterface|null
      */
-    protected ?HandleFuncInterface $onNotFound = null;
+    protected ?HandlerFuncInterface $onNotFound = null;
 
-    /**
-     * @var MiddlewareInterface[]
-     */
-    protected array $middlewares = [];
-
-    public function __construct(MiddlewareInterface ...$middlewares)
-    {
-        array_push($this->middlewares, ...$middlewares);
-    }
 
     /**
      * @var array<string, array<string, callable>>
      */
     private array $routes = [];
 
+
     /**
      * @throws NotFoundException
      */
     public function ServerHTTP(ResponseInterface $rw, RequestInterface $req)
     {
-//        foreach ($this->middlewares as $middleware) {
-//            $middleware->handle($rw, $req, function (){
-//
-//            });
-//        }
-
         $method = strtolower($req->getMethod());
         $path = $req->getUri()->getPath();
 
@@ -53,12 +39,13 @@ class ServerMux implements HandlerInterface
 
         if (!empty($this->onNotFound)) {
             call_user_func($this->onNotFound, $rw, $req);
+            return;
         }
 
         throw new NotFoundException();
     }
 
-    public function handle(string $method, string $path, HandleFuncInterface $cb)
+    public function handle(string $method, string $path, HandlerFuncInterface $cb)
     {
         $method = strtolower($method);
         if (empty($this->routes[$method])) {
@@ -66,16 +53,16 @@ class ServerMux implements HandlerInterface
         }
 
         if (!empty($this->routes[$method][$path])) {
-            throw new \RuntimeException(sprintf('Handle not allowed repeat. method: %s; path: %s', $method, $path));
+            throw new RuntimeException(sprintf('Handle not allowed repeat. method: %s; path: %s', $method, $path));
         }
 
         $this->routes[$method][$path] = $cb;
     }
 
     /**
-     * @param HandleFuncInterface|null $onNotFound
+     * @param HandlerFuncInterface|null $onNotFound
      */
-    public function setOnNotFound(?HandleFuncInterface $onNotFound): void
+    public function setOnNotFound(?HandlerFuncInterface $onNotFound): void
     {
         $this->onNotFound = $onNotFound;
     }

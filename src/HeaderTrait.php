@@ -2,8 +2,6 @@
 
 namespace SwooleGin;
 
-use Psr\Http\Message\RequestInterface;
-
 trait HeaderTrait
 {
     /**
@@ -38,13 +36,16 @@ trait HeaderTrait
         return implode('; ', $this->header[strtolower($name)] ?? []);
     }
 
-    public function withHeader($name, $value): RequestInterface
+    public function withHeader($name, $value): self
     {
+        if (!is_array($value)) {
+            $value = [$value];
+        }
         $this->header[strtolower($name)] = $value;
         return $this;
     }
 
-    public function withAddedHeader($name, $value): RequestInterface
+    public function withAddedHeader($name, $value): self
     {
         $name = strtolower($name);
         if (!isset($this->header[$name])) {
