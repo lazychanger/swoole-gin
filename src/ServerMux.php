@@ -19,7 +19,7 @@ class ServerMux implements HandlerInterface
 
 
     /**
-     * @var array<string, array<string, callable>>
+     * @var array<string, array<string, HandlerFuncInterface>>
      */
     private array $routes = [];
 
@@ -27,19 +27,17 @@ class ServerMux implements HandlerInterface
     /**
      * @throws NotFoundException
      */
-    public function ServerHTTP(ResponseInterface $rw, RequestInterface $req)
+    public function ServerHTTP(ResponseInterface $rw, RequestInterface $req): ResponseInterface
     {
         $method = strtolower($req->getMethod());
         $path = $req->getUri()->getPath();
 
         if (!empty($this->routes[$method]) && !empty($this->routes[$method][$path])) {
-            call_user_func($this->routes[$method][$path], $rw, $req);
-            return;
+            return call_user_func($this->routes[$method][$path], $rw, $req);
         }
 
         if (!empty($this->onNotFound)) {
-            call_user_func($this->onNotFound, $rw, $req);
-            return;
+            return call_user_func($this->onNotFound, $rw, $req);
         }
 
         throw new NotFoundException();

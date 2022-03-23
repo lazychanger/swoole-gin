@@ -7,5 +7,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface HandlerFuncInterface
 {
-    public function __invoke(ResponseInterface $rw, RequestInterface $req);
+    public function __invoke(ResponseInterface $rw, RequestInterface $req): ResponseInterface;
 }

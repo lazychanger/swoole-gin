@@ -49,7 +49,7 @@ class Server
                 $request = Request::parseRequest($data);
 
                 if (!empty($this->handler)) {
-                    $this->handler->ServerHTTP($response, $request);
+                    $response = $this->handler->ServerHTTP($response, $request);
                 } else {
                     $response->withStatus(404, 'Not Found');
                     $response->withBody(new StringStream('Not Found'));

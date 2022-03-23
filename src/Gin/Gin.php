@@ -17,7 +17,7 @@ class Gin extends Router implements HandlerInterface
 
     protected ?ContextHandlerFuncInterface $onNotFound = null;
 
-    public function ServerHTTP(ResponseInterface $rw, RequestInterface $req)
+    public function ServerHTTP(ResponseInterface $rw, RequestInterface $req): ResponseInterface
     {
 
         $handles = [];
@@ -38,7 +38,7 @@ class Gin extends Router implements HandlerInterface
             } else {
                 $rw->withBody(new StringStream('Not Found'));
                 $rw->withStatus(HTTPStatus::StatusNotFound);
-                return;
+                return $rw;
             }
         } else {
             $handles = array_merge($this->middlewares, $handles);
@@ -46,6 +46,8 @@ class Gin extends Router implements HandlerInterface
 
         $context = new Context\Context($rw, $req, $handles);
         $context->next();
+
+        return $context->response;
     }
 
     /**
