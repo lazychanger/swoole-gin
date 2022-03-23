@@ -36,7 +36,11 @@ class Proxy
      */
     public function handler(RequestInterface $request): ResponseInterface
     {
-        $request->withUri(new Uri($this->options['original']['host'] . $request->getUri()->getPath()), true);
+        $request->withUri(new Uri($this->options['original']['host']), true);
+
+        if (!empty($this->options['original']['original_host'])) {
+            $request->withHeader('Host', $this->options['original']['original_host']);
+        }
 
         return $this->client->sendRequest($request);
     }
