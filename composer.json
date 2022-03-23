@@ -5,13 +5,12 @@
     "swoole",
     "http"
   ],
-  "version": "1.0.0",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "lazychanger",
-      "email": "chengliang.duan@outlook.com"
+      "email": "chengliang.duan@gmail.com"
     }
   ],
   "minimum-stability": "dev",
@@ -39,11 +38,5 @@
   },
   "scripts": {
     "test": "php ./vendor/phpunit/phpunit"
-  },
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://mirrors.aliyun.com/composer/"
-    }
   }
 }
