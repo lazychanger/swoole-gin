@@ -2,8 +2,16 @@
 
 namespace SwooleGin;
 
-trait HeaderTrait
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamInterface;
+use SwooleGin\Stream\StringStream;
+
+trait MessageTrait
 {
+    protected string $protocol_version = '1.1';
+
+    protected StreamInterface $stream;
+
     /**
      * @var array<string, string[]>
      */
@@ -60,6 +68,29 @@ trait HeaderTrait
     public function withoutHeader($name)
     {
         unset($this->header[strtolower($name)]);
+    }
+
+
+    public function getProtocolVersion(): string
+    {
+        return $this->protocol_version;
+    }
+
+    public function withProtocolVersion($version): self
+    {
+        $this->protocol_version = $version;
+        return $this;
+    }
+
+    public function getBody(): StreamInterface
+    {
+        return empty($this->stream) ? new StringStream('') : $this->stream;
+    }
+
+    public function withBody(StreamInterface $body): RequestInterface
+    {
+        $this->stream = $body;
+        return $this;
     }
 
 }

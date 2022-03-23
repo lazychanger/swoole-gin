@@ -13,35 +13,12 @@ use SwooleGin\Stream\StringStream;
 
 class Request implements RequestInterface
 {
-    use HeaderTrait;
+    use MessageTrait;
 
     const EOL = '\n';
 
-    private StreamInterface $stream;
     private UriInterface $uri;
     private ?string $requestTarget = null;
-
-    public function getProtocolVersion(): string
-    {
-        return $this->protocol;
-    }
-
-    public function withProtocolVersion($version): RequestInterface
-    {
-        $this->protocol = $version;
-        return $this;
-    }
-
-    public function getBody(): StreamInterface
-    {
-        return $this->stream;
-    }
-
-    public function withBody(StreamInterface $body): RequestInterface
-    {
-        $this->stream = $body;
-        return $this;
-    }
 
     public function getRequestTarget(): string
     {
@@ -107,17 +84,18 @@ class Request implements RequestInterface
     /**
      * @param string $method
      * @param string $path
-     * @param string $protocol
+     * @param string $protocol_version
      * @param array<string, string[]> $header
      * @param StreamInterface|null $stream
      */
     public function __construct(
         protected string $method,
         string $path,
-        protected string $protocol = '1.1',
+        string $protocol_version = '1.1',
         array $header = [],
         ?StreamInterface $stream = null,
     ) {
+        $this->protocol_version = $protocol_version;
         $this->stream = empty($stream) ? new StringStream('') : $stream;
         $this->uri = new Uri($path);
         $this->header = $header;
