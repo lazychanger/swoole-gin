@@ -6,6 +6,11 @@
 
 ## [文档](./docs/00_Summary.md)
 
+## 安装
+```shell
+$ composer require swoole-gin
+```
+
 ## 使用方法
 ```php
 declare(strict_types=1);
