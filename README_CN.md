@@ -4,6 +4,8 @@
 使用PHP基于Swoole TCP完成 golang gin framework 风格的HTTP框架
 实现Restful风格路由、洋葱结构中间间，上下文封装
 
+## [文档](./docs/00_Summary.md)
+
 ## 使用方法
 ```php
 declare(strict_types=1);
