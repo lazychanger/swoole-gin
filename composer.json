@@ -38,5 +38,11 @@
   },
   "scripts": {
     "test": "php ./vendor/phpunit/phpunit"
+  },
+  "archive": {
+    "exclude": [
+      "docs",
+      "vendor"
+    ]
   }
 }
