@@ -61,8 +61,8 @@ Cache-Control: no-cache
 首先我们需要理解一点设计思想：Linux中的一切皆文件。  
 所以我们对一个文件的操作，无非就两点：输入、输出；也可以理解为：读、写；
 
-接下来就是TCP链接呢，有了解过的应该知道，TCP链接建立时候，linux内核会根据四元组（IP地址、端口号、协议类型、协议版本）来创建一个**fd**（[^1]文件描述符）。   
-我们对于该**fd**（[^1]文件描述符）的读写操作，会被linux内核转为更底层的对网卡的操作；具体如下图：
+接下来就是TCP链接呢，有了解过的应该知道，TCP链接建立时候，linux内核会根据四元组（IP地址、端口号、协议类型、协议版本）来创建一个**fd**（文件描述符[^1]）。   
+我们对于该**fd**（文件描述符[^1]）的读写操作，会被linux内核转为更底层的对网卡的操作；具体如下图：
 
 ![FD IO](assets/img/http_fd_io.jpg)
 
@@ -180,7 +180,7 @@ func onClose(connection net.Conn) bool {
 在上文中，我们看到了HTTP协议的请求报文格式。所以我们按照格式将请求报文解析、将响应内容构造好就行；
 
 #### 请求报文解析
-我们将数据解析为[^2]**PSR7 RequestInterface**对象；
+我们将数据解析为**PSR7 RequestInterface**[^2]对象；
 
 ```PHP
 <?php
@@ -239,7 +239,7 @@ class Request implements RequestInterface {
 
 ```
 #### 响应体构造
-响应体我们以[^3]**PSR7 ResponseInterface**对象构造使用；
+响应体我们以**PSR7 ResponseInterface**[^3]对象构造使用；
 
 ```PHP
 <?php
@@ -295,9 +295,9 @@ class ResponseWriter
     - 隐藏HTTP协议的实现；将协议的编码、解码与业务分割；
 - [Request.php](../src/Request.php)：
     - 解析HTTP请求报文；
-    - 将请求报文转化为 [^2][PSR-7](https://learnku.com/docs/psr/psr-7-http-message/1616#312ed4) 标准对象；
+    - 将请求报文转化为 [PSR-7](https://learnku.com/docs/psr/psr-7-http-message/1616#312ed4) 标准对象；
 - [Response.php](../src/Response.php)：
-    - 封装 [^3][PSR-7](https://learnku.com/docs/psr/psr-7-http-message/1616#9da5c4) 标准对象;
+    - 封装 [PSR-7](https://learnku.com/docs/psr/psr-7-http-message/1616#9da5c4) 标准对象;
 - [ResponseWriter.php](../src/ResponseWriter.php)
     - 将 [PSR-7](https://learnku.com/docs/psr/psr-7-http-message/1616#9da5c4) 标准对象转化成响应报文；
 
