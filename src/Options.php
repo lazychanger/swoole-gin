@@ -6,6 +6,7 @@ namespace SwooleGin;
 
 
 use GuzzleHttp\Psr7\Uri;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Psr\Http\Message\UriInterface;
 
 class Options
@@ -13,6 +14,13 @@ class Options
     protected bool $state = true;
 
     protected ?UriInterface $addr = null;
+
+    /**
+     * @var array<string|class-string, object|class-string|callable>
+     */
+    protected array $definitions = [];
+
+    protected ?PsrContainerInterface $container = null;
 
     public function __construct(array $options = [])
     {
@@ -63,4 +71,37 @@ class Options
 
         $this->addr = $addr;
     }
+
+    /**
+     * @return array
+     */
+    public function getDefinitions(): array
+    {
+        return $this->definitions;
+    }
+
+    /**
+     * @param array<string|class-string, object|class-string|callable> $definitions
+     */
+    public function setDefinitions(array $definitions): void
+    {
+        $this->definitions = $definitions;
+    }
+
+    /**
+     * @return PsrContainerInterface
+     */
+    public function getContainer(): PsrContainerInterface
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param PsrContainerInterface $container
+     */
+    public function setContainer(PsrContainerInterface $container): void
+    {
+        $this->container = $container;
+    }
+
 }

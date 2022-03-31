@@ -8,10 +8,12 @@ namespace SwooleGin\Gin\Context;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
+use SwooleGin\ContainerInterface;
 use SwooleGin\Stream\StringStream;
 use SwooleGin\Utils\HTTPMime;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+
 
 class Context
 {
@@ -26,14 +28,17 @@ class Context
     protected bool $parsedBody = false;
     protected array $body = [];
 
+
     /**
-     * @param RequestInterface $request
      * @param ResponseInterface $response
+     * @param RequestInterface $request
+     * @param ContainerInterface $container
      * @param array<array-key, ContextHandlerFuncInterface> $handlers
      */
     public function __construct(
         public ResponseInterface $response,
         public RequestInterface $request,
+        public ContainerInterface $container,
         array $handlers = []
     ) {
         if (empty($handlers)) {
@@ -95,4 +100,6 @@ class Context
         }
         return !empty($this->body[$key]) ? $this->body[$key] : $value;
     }
+
+
 }

@@ -13,6 +13,10 @@ class ErrorCode
     // system error code > 10000 and <= 11000
     const FILE_NOT_EXISTS = 10001;
 
+    const CONTAINER_NOT_FOUND = 10101;
+
+    const CONTAINER_NOT_INITIALIZED = 10102;
+
     // logger exception error code > 11000 and <= 11100
     const UNKNOWN_LOGGER_LEVEL = 11001;
 }

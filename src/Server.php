@@ -24,6 +24,8 @@ class Server
 
     protected HandlerInterface $handler;
 
+    protected ContainerInterface $container;
+
     public function __construct(protected Options $options)
     {
         $this->setLogger(new Logger(Logger::LEVEL_DEBUG));
@@ -31,6 +33,8 @@ class Server
         if ($this->options->getState()) {
             $this->state = new State();
         }
+
+        $this->container = new Container($this->options->getDefinitions(), $this->options->getContainer());
     }
 
 
