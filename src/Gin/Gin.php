@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SwooleGin\Gin;
 
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use SwooleGin\Container;
@@ -46,7 +45,7 @@ class Gin extends Router implements HandlerInterface
             $handles = array_merge($this->middlewares, $handles);
         }
 
-        $context = new Context\Context($rw, $req, Container::get(ContainerInterface::class), $handles);
+        $context = new Context\Context($rw, $req, Container::getContainer(), $handles);
         $context->next();
 
         return $context->response;

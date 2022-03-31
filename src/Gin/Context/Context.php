@@ -46,6 +46,8 @@ class Context
         }
         $this->handlers = $handlers;
         $this->abort_index = count($handlers) - 1;
+
+        self::$_container = $this->container;
     }
 
     public function JSON(int $code, array $data = [])
@@ -101,5 +103,10 @@ class Context
         return !empty($this->body[$key]) ? $this->body[$key] : $value;
     }
 
+    protected static ?\Psr\Container\ContainerInterface $_container;
 
+    protected static function getContainer(): \Psr\Container\ContainerInterface
+    {
+        return self::$_container;
+    }
 }

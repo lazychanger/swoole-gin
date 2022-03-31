@@ -7,39 +7,37 @@ namespace SwooleGin;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 use SwooleGin\Exception\ContainerNotFoundException;
-use SwooleGin\Exception\ContainerNotInitializedException;
 
 /**
  * Class Container
  * @package SwooleGin
  *
- * @method static \SwooleGin\Container get($id): mixed
- * @method static \SwooleGin\Container set($id, $definition): void
- * @method static \SwooleGin\Container has($id): bool
  */
 class Container implements ContainerInterface
 {
     /**
      * @var ContainerInterface
      */
-    protected static ContainerInterface $instance;
-
     protected PsrContainerInterface $parent;
 
     protected array $definitions = [];
 
     protected array $instances = [];
 
+    protected static self $instance;
+
     public function __construct(array $definitions = [], PsrContainerInterface $parent = null)
     {
         $this->parent = $parent;
-        self::$instance = $this;
 
         $this->definitions = $definitions;
+
 
         // provider self
         $this->set(ContainerInterface::class, $this);
         $this->set(PsrContainerInterface::class, $this);
+
+        self::$instance = $this;
     }
 
     /**
@@ -103,15 +101,10 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @throws ContainerNotInitializedException
+     * @return ContainerInterface
      */
-    public static function __callStatic(string $name, array $arguments)
+    public static function getContainer(): ContainerInterface
     {
-        if (empty(self::$instance)) {
-            throw new ContainerNotInitializedException();
-        }
-
-        return self::$instance->{$name}(...$arguments);
+        return self::$instance;
     }
-
 }
