@@ -145,14 +145,11 @@ func main() {
 			}()
 
 			// 30秒后关闭链接，模拟关闭
-			after := time.After(time.Second * 30)
-
-			<-after
+			time.Sleep(time.Second * 30)
 
 			if onClose(conn) {
 				conn.Close()
 			}
-
 		}()
 
 	}
@@ -171,8 +168,6 @@ func onClose(connection net.Conn) bool {
 
 	return true
 }
-
-
 ```
 
 ### 基于TCP实现HTTP协议

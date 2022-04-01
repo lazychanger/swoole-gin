@@ -129,9 +129,9 @@ class Request implements RequestInterface
             [$key, $value] = explode(':', $line);
 
             // the header value will split ';' and trim space
-            $header[strtolower($key)] = array_map(function ($item) {
-                return !empty($item) ? $item : trim($item);
-            }, explode(';', $value));
+            $header[strtolower($key)] = array_filter(array_map(function ($item) {
+                return empty($item) ? $item : trim($item);
+            }, explode(';', $value)));
         }
 
         $stream = null;
