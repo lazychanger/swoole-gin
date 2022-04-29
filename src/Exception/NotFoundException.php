@@ -9,9 +9,10 @@ use SwooleGin\Utils\HTTPStatus;
 
 class NotFoundException extends Exception
 {
-    public function __construct(string $message = '')
+    public function __construct(string $message = 'Route Not Found')
     {
         $message = empty($message) ? HTTPStatus::statusText(HTTPStatus::StatusOK) : $message;
+
         parent::__construct($message, HTTPStatus::StatusOK);
     }
 }

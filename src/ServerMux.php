@@ -40,7 +40,7 @@ class ServerMux implements HandlerInterface
             return call_user_func($this->onNotFound, $rw, $req);
         }
 
-        throw new NotFoundException();
+        throw new NotFoundException(sprintf('%s %s Not Found', $req->getMethod(), $req->getUri()->getPath()));
     }
 
     public function handle(string $method, string $path, HandlerFuncInterface $cb)

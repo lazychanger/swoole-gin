@@ -15,10 +15,7 @@ use SwooleGin\Exception\ContainerNotFoundException;
  */
 class Container implements ContainerInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected PsrContainerInterface $parent;
+    protected ?PsrContainerInterface $parent;
 
     protected array $definitions = [];
 

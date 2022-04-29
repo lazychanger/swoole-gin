@@ -2,7 +2,6 @@
 
 namespace SwooleGin;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use SwooleGin\Stream\StringStream;
 
@@ -65,7 +64,7 @@ trait MessageTrait
         return $this;
     }
 
-    public function withoutHeader($name)
+    public function withoutHeader($name): void
     {
         unset($this->header[strtolower($name)]);
     }
@@ -87,7 +86,7 @@ trait MessageTrait
         return empty($this->stream) ? new StringStream('') : $this->stream;
     }
 
-    public function withBody(StreamInterface $body): RequestInterface
+    public function withBody(StreamInterface $body): static
     {
         $this->stream = $body;
         return $this;

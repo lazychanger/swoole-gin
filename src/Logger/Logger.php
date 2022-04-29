@@ -70,14 +70,14 @@ class Logger implements LoggerInterface
         }
 
         $row = sprintf("%s-%s: %s \r\n", date('Y-m-d H:i:s'), $level, $message);
-        echo $row;
-
 
         // 写入文件
         if (!empty($this->fd)) {
             fwrite($this->fd, $row);
+            return;
         }
 
+        echo $row;
     }
 
 

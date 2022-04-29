@@ -6,6 +6,7 @@ namespace SwooleGin;
 
 
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use SwooleGin\Logger\Logger;
 
 use Swoole\Server as SwooleServer;
@@ -35,6 +36,8 @@ class Server
         }
 
         $this->container = new Container($this->options->getDefinitions(), $this->options->getContainer());
+        $this->container->set('logger', $this->logger);
+        $this->container->set(LoggerInterface::class, $this->options);
     }
 
 
@@ -64,9 +67,19 @@ class Server
                 $response->withStatus($exception->getCode());
                 $response->withBody(new StringStream($exception->getMessage()));
 
-                $this->logger->error($exception->getMessage());
-                $this->logger->error($exception->getTraceAsString());
-
+                // "Fatal error: %s: %s in %s:%d\n%s\n thrown in %s:%d"
+                $this->logger->error(
+                    sprintf(
+                        "Fatal error: %s: %s in %s:%d\n%s\n thrown in %s on line %d",
+                        get_class($exception),
+                        $exception->getMessage(),
+                        $exception->getFile(),
+                        $exception->getLine(),
+                        $exception->getTraceAsString(),
+                        $exception->getFile(),
+                        $exception->getLine()
+                    ),
+                );
                 ResponseWriter::write($server, $fd, $response, $this->options->getBufferSize());
             }
 

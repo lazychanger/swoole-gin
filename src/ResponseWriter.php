@@ -45,7 +45,7 @@ class ResponseWriter
             $bucket_size = ceil($content_size / $buffer_size);
 
             // buffer
-            for ($i = 0; $i, $bucket_size; $i++) {
+            for ($i = 0; $i < $bucket_size; $i++) {
                 $server->send($fd, $response->getBody()->read($buffer_size));
             }
 

@@ -91,9 +91,9 @@ class Options
     }
 
     /**
-     * @return PsrContainerInterface
+     * @return PsrContainerInterface|null
      */
-    public function getContainer(): PsrContainerInterface
+    public function getContainer(): ?PsrContainerInterface
     {
         return $this->container;
     }
