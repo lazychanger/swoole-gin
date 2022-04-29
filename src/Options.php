@@ -11,6 +11,8 @@ use Psr\Http\Message\UriInterface;
 
 class Options
 {
+    protected int $buffer_size = 4096;
+
     protected bool $state = true;
 
     protected ?UriInterface $addr = null;
@@ -102,6 +104,22 @@ class Options
     public function setContainer(PsrContainerInterface $container): void
     {
         $this->container = $container;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBufferSize(): int
+    {
+        return $this->buffer_size;
+    }
+
+    /**
+     * @param int $buffer_size
+     */
+    public function setBufferSize(int $buffer_size): void
+    {
+        $this->buffer_size = $buffer_size;
     }
 
 }

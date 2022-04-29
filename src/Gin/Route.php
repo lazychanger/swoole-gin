@@ -26,7 +26,12 @@ class Route implements RouteHandleInterface
         if ($this->isExtra && $this->path === rtrim($path)) {
             return $this;
         }
+
         if ($this->path === $path) {
+            return $this;
+        }
+
+        if (str_starts_with($path, $this->path)) {
             return $this;
         }
 

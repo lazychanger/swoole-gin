@@ -7,9 +7,11 @@ namespace SwooleGin;
 
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use SwooleGin\Stream\StringStream;
+use SwooleGin\Utils\HTTPStatus;
 
 class Request implements RequestInterface
 {
@@ -115,13 +117,13 @@ class Request implements RequestInterface
 
         // first line is protocol, look like: GET / HTTP/1.1
         // [method] [path] [protocol]
-        [$method, $path, $protocol] = explode(' ', array_pop($data));
+        [$method, $path, $protocol] = explode(' ', array_shift($data));
 
         // header is key-values array, look like: Host: test.com
         $header = [];
 
         while (true) {
-            $line = array_pop($data);
+            $line = array_shift($data);
 
             if (empty($line) || empty(trim($line))) {
                 break;

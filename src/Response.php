@@ -13,7 +13,7 @@ class Response implements ResponseInterface
     use MessageTrait;
 
     protected int $statusCode = HTTPStatus::StatusOK;
-    protected string $reasonPhrase = 'OK';
+    protected string $reasonPhrase = '';
     protected string $version = '1.1';
 
 
@@ -25,14 +25,18 @@ class Response implements ResponseInterface
     public function withStatus($code, $reasonPhrase = ''): Response|static
     {
         $this->statusCode = $code;
-        !empty($reasonPhrase) && $this->reasonPhrase = $reasonPhrase;
+
+        if ($reasonPhrase === '') {
+            $this->reasonPhrase = HTTPStatus::statusText($code);
+        }
+
 
         return $this;
     }
 
     public function getReasonPhrase(): string
     {
-        return $this->reasonPhrase;
+        return empty($this->reasonPhrase) ? HTTPStatus::statusText($this->statusCode) : $this->reasonPhrase;
     }
 
 }

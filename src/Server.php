@@ -59,7 +59,7 @@ class Server
                     $response->withBody(new StringStream('Not Found'));
                 }
 
-                ResponseWriter::write($server, $fd, $response);
+                ResponseWriter::write($server, $fd, $response, $this->options->getBufferSize());
             } catch (Throwable $exception) {
                 $response->withStatus($exception->getCode());
                 $response->withBody(new StringStream($exception->getMessage()));
@@ -67,7 +67,7 @@ class Server
                 $this->logger->error($exception->getMessage());
                 $this->logger->error($exception->getTraceAsString());
 
-                ResponseWriter::write($server, $fd, $response);
+                ResponseWriter::write($server, $fd, $response, $this->options->getBufferSize());
             }
 
             $server->close($fd);
